@@ -1,0 +1,7 @@
+/ (Your Project Root Folder)
+├── api/
+│   └── index.py          <-- The Flask App (MUST be inside 'api' folder)
+├── templates/
+│   └── dashboard.html    <-- The HTML file
+├── requirements.txt      <-- List of libraries
+└── vercel.json           <-- The Vercel Config file
