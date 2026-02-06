@@ -8,89 +8,79 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Smooth scrolling for the sidebar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        .tooltip { visibility: hidden; opacity: 0; transition: opacity 0.3s; }
+        .has-tooltip:hover .tooltip { visibility: visible; opacity: 1; }
     </style>
 </head>
-<body class="bg-slate-900 text-white font-sans overflow-x-hidden">
+<body class="bg-slate-900 text-white font-sans pb-10 overflow-x-hidden">
 
     <div id="sim-sidebar" class="fixed inset-y-0 left-0 w-80 bg-slate-950 border-r border-purple-500/30 transform -translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col shadow-2xl">
-        
         <div class="p-6 border-b border-white/10 bg-purple-900/10">
             <div class="flex justify-between items-center">
                 <h3 class="text-purple-400 font-bold uppercase text-sm tracking-widest"><i class="fas fa-flask mr-2"></i> Simulator</h3>
                 <button onclick="toggleSimulation()" class="text-slate-400 hover:text-white transition-colors"><i class="fas fa-times text-xl"></i></button>
             </div>
-            <p class="text-xs text-slate-400 mt-2">Adjust values to project costs.</p>
         </div>
-
         <div class="p-6 flex-1 overflow-y-auto space-y-6">
             <div class="group">
                 <label class="block text-xs font-bold text-slate-400 mb-2 uppercase">Target Daily Energy (kWh)</label>
                 <div class="relative">
-                    <input type="number" id="sim-kwh" value="15" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 pl-10 text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all font-mono">
+                    <input type="number" id="sim-kwh" value="15" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 pl-10 text-white focus:border-purple-500 outline-none transition-all font-mono">
                     <i class="fas fa-bolt absolute left-3 top-3.5 text-slate-500"></i>
                 </div>
             </div>
-
             <div class="group">
                 <label class="block text-xs font-bold text-slate-400 mb-2 uppercase">Electricity Rate (PHP/kWh)</label>
                 <div class="relative">
-                    <input type="number" id="sim-rate" value="11.60" step="0.01" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 pl-10 text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all font-mono">
+                    <input type="number" id="sim-rate" value="11.60" step="0.01" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 pl-10 text-white focus:border-purple-500 outline-none transition-all font-mono">
                     <i class="fas fa-coins absolute left-3 top-3.5 text-slate-500"></i>
                 </div>
             </div>
-
             <div>
                 <label class="block text-xs font-bold text-slate-400 mb-2 uppercase">Presets</label>
                 <div class="grid grid-cols-2 gap-3">
                     <button onclick="presetSim('low')" class="bg-slate-900 hover:bg-green-900/20 border border-slate-700 hover:border-green-500/50 text-xs py-3 rounded-lg transition-all flex flex-col items-center justify-center gap-1">
-                        <i class="fas fa-leaf text-green-500"></i>
-                        <span>Efficient</span>
+                        <i class="fas fa-leaf text-green-500"></i> <span>Efficient</span>
                     </button>
                     <button onclick="presetSim('high')" class="bg-slate-900 hover:bg-red-900/20 border border-slate-700 hover:border-red-500/50 text-xs py-3 rounded-lg transition-all flex flex-col items-center justify-center gap-1">
-                        <i class="fas fa-fire text-red-500"></i>
-                        <span>High Load</span>
+                        <i class="fas fa-fire text-red-500"></i> <span>High Load</span>
                     </button>
                 </div>
             </div>
         </div>
-
         <div class="p-6 border-t border-white/10 bg-slate-950">
-            <button onclick="runSimulation()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-purple-500/25 transition-all">
-                Update Dashboard <i class="fas fa-arrow-right ml-2"></i>
+            <button onclick="runSimulation()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-lg shadow-lg transition-all">
+                Update Dashboard
             </button>
         </div>
     </div>
 
-
     <div id="main-content" class="transition-all duration-300 ease-in-out">
-        
         <nav class="bg-slate-800 border-b border-slate-700 sticky top-0 z-40">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
                     <div class="flex items-center">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-bolt text-blue-500 text-2xl animate-pulse"></i>
-                        </div>
+                        <div class="flex-shrink-0"><i class="fas fa-bolt text-blue-500 text-2xl animate-pulse"></i></div>
                         <div class="ml-4">
                             <h1 class="text-xl font-bold tracking-tight">Energy Meter Dashboard</h1>
-                            <p id="date-display" class="text-xs text-slate-400 uppercase tracking-wider">Loading...</p>
+                            
+                            <div class="flex items-center space-x-2 text-xs text-slate-400 uppercase tracking-wider font-mono mt-1">
+                                <p id="date-display">Loading Date...</p>
+                                <span class="text-slate-600">|</span>
+                                <p id="time-display" class="text-blue-400 font-bold">--:--:--</p>
+                            </div>
                         </div>
                     </div>
-                    
                     <div class="flex items-center space-x-4">
-                        <button onclick="toggleSimulation()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center transition-all border border-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.4)]">
-                            <i class="fas fa-sliders-h mr-2"></i> Simulator
-                        </button>
-                        
+                        <button onclick="toggleSimulation()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center border border-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.4)]"><i class="fas fa-sliders-h mr-2"></i> Simulator</button>
                         <div class="hidden md:flex ml-4 space-x-2 bg-slate-900 p-1 rounded-lg">
                             <button onclick="setPeriod('today')" id="btn-today" class="filter-btn px-4 py-2 rounded-md text-sm font-medium bg-blue-600 text-white transition-all">Today</button>
-                            <button onclick="setPeriod('weekly')" id="btn-weekly" class="filter-btn px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-slate-700 transition-all">Weekly</button>
-                            <button onclick="setPeriod('monthly')" id="btn-monthly" class="filter-btn px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-slate-700 transition-all">Monthly</button>
-                            <button onclick="setPeriod('yearly')" id="btn-yearly" class="filter-btn px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-slate-700 transition-all">Yearly</button>
+                            <button onclick="setPeriod('weekly')" id="btn-weekly" class="filter-btn px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white transition-all">Weekly</button>
+                            <button onclick="setPeriod('monthly')" id="btn-monthly" class="filter-btn px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white transition-all">Monthly</button>
+                            <button onclick="setPeriod('yearly')" id="btn-yearly" class="filter-btn px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white transition-all">Yearly</button>
                         </div>
                     </div>
                 </div>
@@ -98,22 +88,41 @@
         </nav>
 
         <div class="max-w-7xl mx-auto p-6 space-y-6">
-            
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="bg-slate-800 rounded-xl p-6 shadow-lg border-l-4 border-yellow-400">
-                    <h2 class="text-slate-400 text-xs font-bold uppercase">Voltage</h2>
+                <div class="bg-slate-800 rounded-xl p-6 shadow-lg border-l-4 border-yellow-400 has-tooltip relative">
+                    <div class="flex justify-between items-start">
+                        <h2 class="text-slate-400 text-xs font-bold uppercase">Voltage <i class="fas fa-question-circle ml-1 text-slate-600 hover:text-white"></i></h2>
+                    </div>
+                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">
+                        Electrical pressure. Standard PH outlet is 220V-230V.
+                    </div>
                     <p class="mt-2 text-3xl font-bold font-mono"><span id="val-voltage">220.0</span> <span class="text-sm text-slate-500">V</span></p>
                 </div>
-                <div class="bg-slate-800 rounded-xl p-6 shadow-lg border-l-4 border-green-400">
-                    <h2 class="text-slate-400 text-xs font-bold uppercase">Current</h2>
+                <div class="bg-slate-800 rounded-xl p-6 shadow-lg border-l-4 border-green-400 has-tooltip relative">
+                    <div class="flex justify-between items-start">
+                        <h2 class="text-slate-400 text-xs font-bold uppercase">Current <i class="fas fa-question-circle ml-1 text-slate-600 hover:text-white"></i></h2>
+                    </div>
+                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">
+                        The flow of electricity. Higher amps means more active appliances.
+                    </div>
                     <p class="mt-2 text-3xl font-bold font-mono"><span id="val-current">0.00</span> <span class="text-sm text-slate-500">A</span></p>
                 </div>
-                <div class="bg-slate-800 rounded-xl p-6 shadow-lg border-l-4 border-red-500">
-                    <h2 class="text-slate-400 text-xs font-bold uppercase">Power</h2>
+                <div class="bg-slate-800 rounded-xl p-6 shadow-lg border-l-4 border-red-500 has-tooltip relative">
+                    <div class="flex justify-between items-start">
+                        <h2 class="text-slate-400 text-xs font-bold uppercase">Power <i class="fas fa-question-circle ml-1 text-slate-600 hover:text-white"></i></h2>
+                    </div>
+                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">
+                        Real-time energy consumption (Watts). This is what you pay for.
+                    </div>
                     <p class="mt-2 text-3xl font-bold font-mono"><span id="val-power">0.0</span> <span class="text-sm text-slate-500">W</span></p>
                 </div>
-                <div class="bg-slate-800 rounded-xl p-6 shadow-lg border-l-4 border-blue-500">
-                    <h2 class="text-slate-400 text-xs font-bold uppercase">Rate / Hour</h2>
+                <div class="bg-slate-800 rounded-xl p-6 shadow-lg border-l-4 border-blue-500 has-tooltip relative">
+                    <div class="flex justify-between items-start">
+                        <h2 class="text-slate-400 text-xs font-bold uppercase">Rate / Hour <i class="fas fa-question-circle ml-1 text-slate-600 hover:text-white"></i></h2>
+                    </div>
+                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">
+                        Estimated cost per hour based on current usage and ₱11.60 rate.
+                    </div>
                     <p class="mt-2 text-3xl font-bold font-mono">₱<span id="val-live-cost">0.00</span></p>
                 </div>
             </div>
@@ -131,36 +140,41 @@
                 <div class="relative h-80 w-full">
                     <canvas id="mainChart"></canvas>
                 </div>
-                
-                <div id="sim-indicator" class="hidden absolute top-4 left-1/2 transform -translate-x-1/2 bg-purple-600/90 text-white px-4 py-1 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm">
-                    SIMULATION ACTIVE
-                </div>
+                <div id="sim-indicator" class="hidden absolute top-4 left-1/2 transform -translate-x-1/2 bg-purple-600/90 text-white px-4 py-1 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm">SIMULATION ACTIVE</div>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700">
-                    <h4 class="text-slate-400 text-xs font-bold uppercase" id="label-kwh">Total Energy (Today)</h4>
+                <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700 has-tooltip relative">
+                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">
+                        Total projected energy consumption (kWh) for the selected period.
+                    </div>
+                    <h4 class="text-slate-400 text-xs font-bold uppercase"><span id="label-kwh">Total Energy</span> <i class="fas fa-question-circle ml-1 text-slate-600 hover:text-white"></i></h4>
                     <div class="mt-4 flex items-baseline">
                         <span id="val-kwh" class="text-4xl font-bold text-white">--</span>
                         <span class="ml-2 text-sm text-purple-400">kWh</span>
                     </div>
                 </div>
-                <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700">
-                    <h4 class="text-slate-400 text-xs font-bold uppercase" id="label-cost">Total Cost (Today)</h4>
+                <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700 has-tooltip relative">
+                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">
+                        Total estimated bill (Pesos) for the selected period at ₱11.60/kWh.
+                    </div>
+                    <h4 class="text-slate-400 text-xs font-bold uppercase"><span id="label-cost">Total Cost</span> <i class="fas fa-question-circle ml-1 text-slate-600 hover:text-white"></i></h4>
                     <div class="mt-4 flex items-baseline">
                         <span class="text-2xl text-slate-400 mr-1">₱</span>
                         <span id="val-total-cost" class="text-4xl font-bold text-white">--</span>
                     </div>
                 </div>
-                <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700">
-                    <h4 class="text-slate-400 text-xs font-bold uppercase" id="label-carbon">Carbon Footprint</h4>
+                <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700 has-tooltip relative">
+                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">
+                        Estimated environmental impact based on PH grid emission factors.
+                    </div>
+                    <h4 class="text-slate-400 text-xs font-bold uppercase">Carbon Footprint <i class="fas fa-question-circle ml-1 text-slate-600 hover:text-white"></i></h4>
                     <div class="mt-4 flex items-baseline">
                         <span id="val-carbon" class="text-4xl font-bold text-white">--</span>
                         <span class="ml-2 text-sm text-green-400">kgCO₂</span>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -169,9 +183,17 @@
         let isSimulation = false;
         const BASE_RATE = 11.60; 
 
-        // 0. DATE
-        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('date-display').innerText = new Date().toLocaleDateString('en-US', dateOptions);
+        // 0. DATE & TIME CLOCK (The New Feature)
+        function updateDateTime() {
+            const now = new Date();
+            // Date
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('date-display').innerText = now.toLocaleDateString('en-US', dateOptions);
+            // Time (HH:MM:SS AM/PM)
+            document.getElementById('time-display').innerText = now.toLocaleTimeString('en-US', { hour12: true });
+        }
+        setInterval(updateDateTime, 1000); // Tick every second
+        updateDateTime(); // Run immediately
 
         // 1. CHART
         const ctx = document.getElementById('mainChart').getContext('2d');
@@ -205,42 +227,31 @@
             }
         });
 
-        // 2. LAYOUT SHIFT LOGIC (The Fix)
+        // 2. TOGGLE
         function toggleSimulation() {
             const sidebar = document.getElementById('sim-sidebar');
             const mainContent = document.getElementById('main-content');
-            
-            // Check if sidebar is currently closed (hidden)
             const isClosed = sidebar.classList.contains('-translate-x-full');
 
             if (isClosed) {
-                // OPEN SIDEBAR
                 sidebar.classList.remove('-translate-x-full');
-                // Push Main Content to the Right
-                mainContent.style.marginLeft = "20rem"; // 20rem = w-80 (320px)
-                
+                mainContent.style.marginLeft = "20rem"; 
                 isSimulation = true;
                 document.getElementById('sim-indicator').classList.remove('hidden');
                 document.getElementById('status-badge').innerHTML = '<i class="fas fa-flask text-purple-400 text-[8px] mr-1 animate-pulse"></i> Simulation';
                 document.getElementById('status-badge').className = "bg-purple-900/30 border border-purple-500/50 px-3 py-1 rounded text-xs text-purple-300";
-                
                 runSimulation();
             } else {
-                // CLOSE SIDEBAR
                 sidebar.classList.add('-translate-x-full');
-                // Reset Main Content
                 mainContent.style.marginLeft = "0";
-                
                 isSimulation = false;
                 document.getElementById('sim-indicator').classList.add('hidden');
                 document.getElementById('status-badge').innerHTML = '<i class="fas fa-circle text-green-400 text-[8px] mr-1 animate-pulse"></i> Online';
                 document.getElementById('status-badge').className = "bg-slate-700 px-3 py-1 rounded text-xs text-slate-300";
-                
                 fetchHistory();
             }
         }
 
-        // 3. SIMULATION LOGIC
         function presetSim(type) {
             document.getElementById('sim-kwh').value = (type === 'low') ? 5 : 45;
             runSimulation();
@@ -248,13 +259,10 @@
 
         function runSimulation() {
             if(!isSimulation) return;
-
             const targetKwh = parseFloat(document.getElementById('sim-kwh').value) || 15;
             const rate = parseFloat(document.getElementById('sim-rate').value) || 11.60;
-
-            let simLabels = [];
-            let simValues = [];
-            let totalMultiplier = 1;
+            
+            let simLabels = [], simValues = [], totalMultiplier = 1;
 
             if (currentPeriod === 'today') {
                 simLabels = Array.from({length: 24}, (_, i) => `${i}:00`);
@@ -295,13 +303,11 @@
             document.getElementById('val-carbon').innerText = simCarbon;
         }
 
-        // 4. REAL DATA LOGIC
         async function fetchHistory() {
             if(isSimulation) return;
             try {
                 const response = await fetch(`/api/history?period=${currentPeriod}`);
                 const data = await response.json();
-                
                 if (data.data) {
                     myChart.data.labels = data.labels;
                     myChart.data.datasets[0].data = data.data;
@@ -341,13 +347,11 @@
             
             const titles = { 'today': "Today's Usage", 'weekly': "Weekly Trend", 'monthly': "Monthly Trend", 'yearly': "Yearly Trend" };
             document.getElementById('chart-title').innerText = titles[period];
-            
             const labelMap = { 'today': "Today", 'weekly': "This Week", 'monthly': "This Month", 'yearly': "This Year" };
             document.getElementById('label-kwh').innerText = `Total Energy (${labelMap[period]})`;
             document.getElementById('label-cost').innerText = `Total Cost (${labelMap[period]})`;
             
-            if(isSimulation) runSimulation();
-            else fetchHistory();
+            if(isSimulation) runSimulation(); else fetchHistory();
         }
 
         fetchHistory(); 
