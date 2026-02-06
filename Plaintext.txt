@@ -1,7 +1,0 @@
-/thesis-dashboard
-├── api/
-│   └── index.py         <-- The Backend Logic
-├── templates/
-│   └── dashboard.html   <-- The Frontend Design
-├── vercel.json          <-- Deployment Config
-└── requirements.txt     <-- Library List
