@@ -28,14 +28,14 @@
             <div class="group">
                 <label class="block text-xs font-bold text-slate-400 mb-2 uppercase">Target Daily Energy (kWh)</label>
                 <div class="relative">
-                    <input type="number" id="sim-kwh" value="15" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 pl-10 text-white focus:border-purple-500 outline-none transition-all font-mono">
+                    <input type="number" id="sim-kwh" value="15" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 pl-10 text-white focus:border-purple-500 font-mono transition-all">
                     <i class="fas fa-bolt absolute left-3 top-3.5 text-slate-500"></i>
                 </div>
             </div>
             <div class="group">
                 <label class="block text-xs font-bold text-slate-400 mb-2 uppercase">Electricity Rate (PHP/kWh)</label>
                 <div class="relative">
-                    <input type="number" id="sim-rate" value="11.60" step="0.01" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 pl-10 text-white focus:border-purple-500 outline-none transition-all font-mono">
+                    <input type="number" id="sim-rate" value="11.60" step="0.01" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 pl-10 text-white focus:border-purple-500 font-mono transition-all">
                     <i class="fas fa-coins absolute left-3 top-3.5 text-slate-500"></i>
                 </div>
             </div>
@@ -66,7 +66,6 @@
                         <div class="flex-shrink-0"><i class="fas fa-bolt text-blue-500 text-2xl animate-pulse"></i></div>
                         <div class="ml-4">
                             <h1 class="text-xl font-bold tracking-tight">Energy Meter Dashboard</h1>
-                            
                             <div class="flex items-center space-x-2 text-xs text-slate-400 uppercase tracking-wider font-mono mt-1">
                                 <p id="date-display">Loading Date...</p>
                                 <span class="text-slate-600">|</span>
@@ -93,36 +92,28 @@
                     <div class="flex justify-between items-start">
                         <h2 class="text-slate-400 text-xs font-bold uppercase">Voltage <i class="fas fa-question-circle ml-1 text-slate-600 hover:text-white"></i></h2>
                     </div>
-                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">
-                        Electrical pressure. Standard PH outlet is 220V-230V.
-                    </div>
+                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">Electrical pressure. Standard PH outlet is 220V-230V.</div>
                     <p class="mt-2 text-3xl font-bold font-mono"><span id="val-voltage">220.0</span> <span class="text-sm text-slate-500">V</span></p>
                 </div>
                 <div class="bg-slate-800 rounded-xl p-6 shadow-lg border-l-4 border-green-400 has-tooltip relative">
                     <div class="flex justify-between items-start">
                         <h2 class="text-slate-400 text-xs font-bold uppercase">Current <i class="fas fa-question-circle ml-1 text-slate-600 hover:text-white"></i></h2>
                     </div>
-                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">
-                        The flow of electricity. Higher amps means more active appliances.
-                    </div>
+                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">The flow of electricity. Higher amps means more active appliances.</div>
                     <p class="mt-2 text-3xl font-bold font-mono"><span id="val-current">0.00</span> <span class="text-sm text-slate-500">A</span></p>
                 </div>
                 <div class="bg-slate-800 rounded-xl p-6 shadow-lg border-l-4 border-red-500 has-tooltip relative">
                     <div class="flex justify-between items-start">
                         <h2 class="text-slate-400 text-xs font-bold uppercase">Power <i class="fas fa-question-circle ml-1 text-slate-600 hover:text-white"></i></h2>
                     </div>
-                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">
-                        Real-time energy consumption (Watts). This is what you pay for.
-                    </div>
+                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">Real-time energy consumption (Watts). This is what you pay for.</div>
                     <p class="mt-2 text-3xl font-bold font-mono"><span id="val-power">0.0</span> <span class="text-sm text-slate-500">W</span></p>
                 </div>
                 <div class="bg-slate-800 rounded-xl p-6 shadow-lg border-l-4 border-blue-500 has-tooltip relative">
                     <div class="flex justify-between items-start">
                         <h2 class="text-slate-400 text-xs font-bold uppercase">Rate / Hour <i class="fas fa-question-circle ml-1 text-slate-600 hover:text-white"></i></h2>
                     </div>
-                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">
-                        Estimated cost per hour based on current usage and ₱11.60 rate.
-                    </div>
+                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">Estimated cost per hour based on current usage and ₱11.60 rate.</div>
                     <p class="mt-2 text-3xl font-bold font-mono">₱<span id="val-live-cost">0.00</span></p>
                 </div>
             </div>
@@ -145,34 +136,19 @@
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700 has-tooltip relative">
-                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">
-                        Total projected energy consumption (kWh) for the selected period.
-                    </div>
+                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">Total projected energy consumption (kWh).</div>
                     <h4 class="text-slate-400 text-xs font-bold uppercase"><span id="label-kwh">Total Energy</span> <i class="fas fa-question-circle ml-1 text-slate-600 hover:text-white"></i></h4>
-                    <div class="mt-4 flex items-baseline">
-                        <span id="val-kwh" class="text-4xl font-bold text-white">--</span>
-                        <span class="ml-2 text-sm text-purple-400">kWh</span>
-                    </div>
+                    <div class="mt-4 flex items-baseline"><span id="val-kwh" class="text-4xl font-bold text-white">--</span><span class="ml-2 text-sm text-purple-400">kWh</span></div>
                 </div>
                 <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700 has-tooltip relative">
-                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">
-                        Total estimated bill (Pesos) for the selected period at ₱11.60/kWh.
-                    </div>
+                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">Total estimated bill (Pesos) for the selected period.</div>
                     <h4 class="text-slate-400 text-xs font-bold uppercase"><span id="label-cost">Total Cost</span> <i class="fas fa-question-circle ml-1 text-slate-600 hover:text-white"></i></h4>
-                    <div class="mt-4 flex items-baseline">
-                        <span class="text-2xl text-slate-400 mr-1">₱</span>
-                        <span id="val-total-cost" class="text-4xl font-bold text-white">--</span>
-                    </div>
+                    <div class="mt-4 flex items-baseline"><span class="text-2xl text-slate-400 mr-1">₱</span><span id="val-total-cost" class="text-4xl font-bold text-white">--</span></div>
                 </div>
                 <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700 has-tooltip relative">
-                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">
-                        Estimated environmental impact based on PH grid emission factors.
-                    </div>
+                    <div class="tooltip absolute -top-10 left-1/2 transform -translate-x-1/2 w-48 bg-black/90 text-white text-xs p-2 rounded shadow-xl z-50 pointer-events-none border border-slate-700">Estimated environmental impact based on PH grid.</div>
                     <h4 class="text-slate-400 text-xs font-bold uppercase">Carbon Footprint <i class="fas fa-question-circle ml-1 text-slate-600 hover:text-white"></i></h4>
-                    <div class="mt-4 flex items-baseline">
-                        <span id="val-carbon" class="text-4xl font-bold text-white">--</span>
-                        <span class="ml-2 text-sm text-green-400">kgCO₂</span>
-                    </div>
+                    <div class="mt-4 flex items-baseline"><span id="val-carbon" class="text-4xl font-bold text-white">--</span><span class="ml-2 text-sm text-green-400">kgCO₂</span></div>
                 </div>
             </div>
         </div>
@@ -181,21 +157,19 @@
     <script>
         let currentPeriod = 'today';
         let isSimulation = false;
+        let simAvgPower = 0; // NEW: Stores the simulated power level
         const BASE_RATE = 11.60; 
 
-        // 0. DATE & TIME CLOCK (The New Feature)
+        // DATE & TIME
         function updateDateTime() {
             const now = new Date();
-            // Date
-            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('date-display').innerText = now.toLocaleDateString('en-US', dateOptions);
-            // Time (HH:MM:SS AM/PM)
+            document.getElementById('date-display').innerText = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             document.getElementById('time-display').innerText = now.toLocaleTimeString('en-US', { hour12: true });
         }
-        setInterval(updateDateTime, 1000); // Tick every second
-        updateDateTime(); // Run immediately
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
 
-        // 1. CHART
+        // CHART
         const ctx = document.getElementById('mainChart').getContext('2d');
         const gradient = ctx.createLinearGradient(0, 0, 0, 400);
         gradient.addColorStop(0, 'rgba(59, 130, 246, 0.5)'); 
@@ -203,37 +177,15 @@
 
         const myChart = new Chart(ctx, {
             type: 'line',
-            data: {
-                labels: [],
-                datasets: [{
-                    label: 'Power (Watts)',
-                    data: [],
-                    borderColor: '#3b82f6',
-                    backgroundColor: gradient,
-                    borderWidth: 2,
-                    tension: 0.4,
-                    fill: true,
-                    pointRadius: 3
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: { beginAtZero: true, grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
-                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
-                },
-                plugins: { legend: { display: false } }
-            }
+            data: { labels: [], datasets: [{ label: 'Power (Watts)', data: [], borderColor: '#3b82f6', backgroundColor: gradient, borderWidth: 2, tension: 0.4, fill: true, pointRadius: 3 }] },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { color: '#334155' }, ticks: { color: '#94a3b8' } }, x: { grid: { display: false }, ticks: { color: '#94a3b8' } } }, plugins: { legend: { display: false } } }
         });
 
-        // 2. TOGGLE
+        // TOGGLE
         function toggleSimulation() {
             const sidebar = document.getElementById('sim-sidebar');
             const mainContent = document.getElementById('main-content');
-            const isClosed = sidebar.classList.contains('-translate-x-full');
-
-            if (isClosed) {
+            if (sidebar.classList.contains('-translate-x-full')) {
                 sidebar.classList.remove('-translate-x-full');
                 mainContent.style.marginLeft = "20rem"; 
                 isSimulation = true;
@@ -262,6 +214,10 @@
             const targetKwh = parseFloat(document.getElementById('sim-kwh').value) || 15;
             const rate = parseFloat(document.getElementById('sim-rate').value) || 11.60;
             
+            // Calculate Sim Average Power for Live Gauges
+            // (kWh * 1000) / 24 hours = Watts
+            simAvgPower = (targetKwh * 1000) / 24;
+
             let simLabels = [], simValues = [], totalMultiplier = 1;
 
             if (currentPeriod === 'today') {
@@ -301,6 +257,9 @@
             document.getElementById('val-kwh').innerText = simTotalKwh;
             document.getElementById('val-total-cost').innerText = simTotalCost;
             document.getElementById('val-carbon').innerText = simCarbon;
+            
+            // Force update live gauges immediately to reflect sim
+            updateLiveData(); 
         }
 
         async function fetchHistory() {
@@ -320,10 +279,33 @@
                     document.getElementById('val-total-cost').innerText = Number(data.summary.total_cost).toLocaleString('en-US', {minimumFractionDigits: 2});
                     document.getElementById('val-carbon').innerText = data.summary.total_carbon;
                 }
-            } catch (err) { console.error("API Error", err); }
+            } catch (err) {}
         }
 
         async function updateLiveData() {
+            // IF SIMULATION IS ACTIVE, GENERATE FAKE "LIVE" DATA HERE
+            if(isSimulation) {
+                // Generate voltage around 220
+                const simVolt = (220 + Math.random() * 2 - 1).toFixed(1);
+                
+                // Generate power based on the Simulation Average (+/- noise)
+                const simPower = (simAvgPower + (Math.random() * 50 - 25)).toFixed(1);
+                
+                // Calculate current
+                const simCurrent = (simPower / simVolt).toFixed(2);
+                
+                // Calculate Rate
+                const rate = parseFloat(document.getElementById('sim-rate').value) || 11.60;
+                const simCost = ((simPower / 1000) * rate).toFixed(2);
+
+                document.getElementById('val-voltage').innerText = simVolt;
+                document.getElementById('val-current').innerText = simCurrent;
+                document.getElementById('val-power').innerText = simPower;
+                document.getElementById('val-live-cost').innerText = simCost;
+                return; // Stop here, don't fetch from server
+            }
+
+            // OTHERWISE, FETCH REAL DATA
             try {
                 const response = await fetch('/api/live');
                 const data = await response.json();
